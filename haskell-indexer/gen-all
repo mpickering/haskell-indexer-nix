@@ -1,0 +1,16 @@
+PACKAGES="kythe-proto haskell-indexer-backend-core haskell-indexer-backend-ghc haskell-indexer-frontend-kythe haskell-indexer-pathutil haskell-indexer-pipeline-ghckythe haskell-indexer-pipeline-ghckythe-wrapper haskell-indexer-plugin haskell-indexer-translate kythe-schema text-offset"
+
+REV=7622691f8fb9ebb020edf08679c41fcb7698f39d
+
+for package in $PACKAGES; do
+  cabal2nix --subpath $package --revision $REV https://github.com/mpickering/haskell-indexer.git > $package.nix
+done
+
+echo "" > hi.nix
+
+echo "self: super: {" >> hi.nix
+for package in $PACKAGES; do
+  echo "$package = self.callPackage ./$package.nix {};" >> hi.nix
+done
+echo "}" >> hi.nix
+
