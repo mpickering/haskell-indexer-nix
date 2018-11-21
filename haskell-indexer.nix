@@ -1,7 +1,14 @@
 let
+  _pin = import ./nixpkgs.nix;
+
+    nur = import (builtins.fetchTarball { url = "https://github.com/nix-community/NUR/archive/6ce3bbcfe7e1c599ec7a162eb61cd3d17ecfcc93.tar.gz";
+                                          sha256 = "1nxcqlcvhpaa74xikhlnskxnjqpq5cpxj34l1aqqy0scfrjzwmkl";}) {
+      pkgs = nixpkgs;
+  };
+
   # Using NUR
-  overlay = (import <nixpkgs> {}).nur.repos.mpickering.overlays.haskell-plugins;
-  nixpkgs = import <nixpkgs> { overlays = [ overlay ]; };
+  overlay = nur.repos.mpickering.overlays.haskell-plugins;
+  nixpkgs = _pin { overlays = [ overlay ]; };
 
   hp = nixpkgs.haskell.packages.ghc861.override{ overrides = ho; };
 
