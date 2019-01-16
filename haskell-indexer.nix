@@ -63,7 +63,7 @@ let
       ls ${hp}/cache
       for i in ${hp}/cache/*; do
         echo $i
-#        cat $i | ${nixpkgs.kythe}/bin/verifier -use_file_nodes -alsologtostderr -ignore-dups
+        cat $i | ${nixpkgs.kythe}/bin/verifier -use_file_nodes -alsologtostderr -ignore-dups
         ${nixpkgs.kythe}/bin/write_entries --graphstore $out/gs < $i
       done
       ${nixpkgs.kythe}/tools/write_tables --graphstore $out/gs --out $out/tables
@@ -72,7 +72,7 @@ let
 
 
 
-  output3 = ghcWithIndexes (ps: [ps.either]);
+  output3 = ghcWithIndexes (ps: [ps.distributive]);
 
 
 in
